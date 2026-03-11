@@ -5,4 +5,5 @@ matplotlib
 seaborn
 scipy
 joblib
-requests
+scikit-learn
+xgboost
