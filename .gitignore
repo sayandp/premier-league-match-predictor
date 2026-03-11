@@ -1,0 +1,46 @@
+# Virtual environment
+
+.venv/
+venv/
+env/
+
+# Environment variables (API keys)
+
+.env
+
+# Python cache
+
+**pycache**/
+*.pyc
+*.pyo
+
+# Jupyter temp
+
+.ipynb_checkpoints/
+
+# OS files
+
+.DS_Store
+Thumbs.db
+
+# Temporary training data
+
+X_train.csv
+X_test.csv
+y_train.csv
+y_test.csv
+model_dataset.csv
+matches_with_results.csv
+
+# Logs
+
+*.log
+
+# Streamlit cache
+
+.streamlit/
+
+# Build artifacts
+
+dist/
+build/
