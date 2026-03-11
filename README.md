@@ -232,6 +232,9 @@ The dashboard displays:
 • Monte Carlo simulation results
 
 ---
+## Live Demo
+
+https://premier-league-match-predictor-hkziappotkd3ghtkefvsgcr.streamlit.app/
 
 # 🎯 Future Improvements
 
