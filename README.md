@@ -1,265 +1,203 @@
-# ⚽ Premier League Football Match Predictor (Machine Learning + Sports Analytics)
+# ⚽ Premier League Match Predictor
 
-An end-to-end **data science project** that predicts Premier League football match outcomes using historical match data, statistical modeling, and machine learning.
+A machine learning project that predicts Premier League match outcomes using historical match data, statistical modeling, and simulation techniques.
 
-The project also includes an **interactive analytics dashboard** built with Streamlit that visualizes predictions, probabilities, and team performance.
+The project combines **machine learning, probabilistic modeling, and football analytics** to estimate match results and score probabilities.
 
 ---
 
 # 📊 Project Overview
 
-Predicting football match outcomes is a classic problem in **sports analytics and predictive modeling**.
+This project builds a football analytics system that predicts the outcome of a Premier League match between two teams.
 
-This project builds a complete pipeline that:
+The system uses historical match data to calculate team performance metrics and applies machine learning and statistical models to estimate match outcomes.
 
-• Collects football match data using an API
-• Cleans and preprocesses the data
-• Engineers predictive features
-• Trains a machine learning model
-• Uses statistical simulations for score prediction
-• Displays results in an interactive Streamlit dashboard
+The interactive dashboard allows users to:
 
-The system predicts:
-
-* Match outcome (Home Win / Draw / Away Win)
-* Win probabilities
-* Expected goals comparison
-* Most likely scorelines
-* Score probability heatmaps
+• Select two teams
+• Predict match results
+• View win probabilities
+• Simulate possible scorelines
+• Analyze team performance
 
 ---
 
-# 🔗 Data Collection (API)
+# ⚙️ Features
 
-Historical match data is collected using a football statistics API.
+### Machine Learning Prediction
 
-The script `data_collection.py` connects to the API and downloads match data including:
+A trained model predicts:
 
-* Home team
-* Away team
-* Goals scored
-* Goals conceded
-* Match date
-* League information
+* Home Win
+* Draw
+* Away Win
 
-Example API request:
-
-```python
-headers = {
-    "x-apisports-key": API_KEY
-}
-```
-
-The collected data is saved as:
-
-```
-matches_2014_2025.csv
-```
-
-This automated pipeline allows the dataset to be updated easily for new seasons.
+based on engineered team performance features.
 
 ---
 
-# 🧹 Data Preprocessing
+### Monte Carlo Match Simulation
 
-Raw sports data requires cleaning and transformation before it can be used for modeling.
+Simulates thousands of matches to estimate the most likely scorelines.
 
-The preprocessing stage performs:
+Example output:
 
-### Data Cleaning
+2–1 → 18%
+1–0 → 14%
+2–0 → 12%
 
-* Removing incomplete matches
-* Handling missing values
-* Standardizing team names
+---
 
-### Feature Engineering
+### Poisson Goal Model
 
-New features are created to represent team strength and performance:
+Football goals follow a distribution close to a **Poisson process**.
 
-```
-home_avg_scored
-home_avg_conceded
-away_avg_scored
-away_avg_conceded
-```
+The model estimates the probability of each score combination.
 
-These features capture:
+Example heatmap:
 
-* Team attacking strength
-* Defensive ability
-* Goal scoring patterns
+Home Goals vs Away Goals probability matrix.
 
-### Dataset Preparation
+---
 
-The processed dataset is split into training and testing sets:
+### Team Performance Analytics
 
-```
-X_train.csv
-X_test.csv
-y_train.csv
-y_test.csv
-```
+The dashboard also shows:
+
+• Expected goals comparison
+• Last 5 match form
+• Recent goal performance
+• Head-to-head history
 
 ---
 
 # 🧠 Machine Learning Model
 
-A classification model is trained to predict match outcomes.
+Model used:
 
-Predicted classes:
+**XGBoost Classifier**
+
+Why XGBoost:
+
+• Handles nonlinear relationships
+• Works well with tabular data
+• Strong performance in sports prediction tasks
+
+Target variable:
 
 ```
-Home Win
-Draw
-Away Win
+0 → Away Win
+1 → Draw
+2 → Home Win
 ```
 
-The model learns patterns in team performance and scoring behavior.
+---
 
-After training, the model is saved as:
+# 📂 Project Structure
+
+```
+premier-league-match-predictor
+│
+├── app.py
+├── data_collection.py
+├── create_target.py
+├── feature_engineering.py
+├── preprocessing.py
+├── train_model.py
+│
+├── football_model.pkl
+├── matches_2014_2025.csv
+│
+├── assets/
+│   └── fb.jpg
+│
+├── logos/
+│
+├── README.md
+├── requirements.txt
+└── .gitignore
+```
+
+---
+
+# 📥 Data Collection
+
+Match data is collected using a football API.
+
+The script:
+
+```
+data_collection.py
+```
+
+retrieves historical match results and stores them in:
+
+```
+matches_2014_2025.csv
+```
+
+Data includes:
+
+• Home team
+• Away team
+• Goals scored
+• Match results
+
+---
+
+# ⚙️ Feature Engineering
+
+Features used for prediction include:
+
+• Average goals scored
+• Average goals conceded
+• Team identifiers
+• Historical performance metrics
+
+Scripts used:
+
+```
+feature_engineering.py
+preprocessing.py
+```
+
+---
+
+# 🧪 Model Training
+
+Training is done using:
+
+```
+train_model.py
+```
+
+The trained model is saved as:
 
 ```
 football_model.pkl
 ```
 
-This file is used directly by the dashboard for predictions.
+This model is used by the Streamlit dashboard.
 
 ---
 
-# 🎯 Monte Carlo Match Simulation
+# 🖥️ Streamlit Dashboard
 
-Monte Carlo simulation generates thousands of possible match outcomes using probabilistic goal scoring.
+The interactive dashboard is built with the Python framework Streamlit.
 
-Example simulated results:
+Features:
 
-```
-2-1 → 18.4%
-1-1 → 16.2%
-1-0 → 12.7%
-2-0 → 11.1%
-0-1 → 9.3%
-```
-
-This provides realistic **scoreline probability predictions**.
+• Team selection interface
+• Match prediction
+• Probability visualization
+• Scoreline simulation
+• Performance charts
 
 ---
 
-# 📊 Poisson Goal Model
+# ▶️ Run the Project
 
-Football goals are commonly modeled using a **Poisson distribution**.
-
-The Poisson model estimates the probability of scoring **0–5 goals per team**.
-
-From the probability matrix we compute:
-
-* Home win probability
-* Draw probability
-* Away win probability
-
-Example output:
-
-```
-Home Win → 52.1%
-Draw → 26.3%
-Away Win → 21.6%
-```
-
----
-
-# 🔥 Score Probability Heatmap
-
-The Poisson model generates a **score probability heatmap** showing the likelihood of each scoreline.
-
-Example matrix:
-
-| Home\Away | 0    | 1    | 2    | 3    |
-| --------- | ---- | ---- | ---- | ---- |
-| 0         | 0.07 | 0.09 | 0.05 | 0.02 |
-| 1         | 0.11 | 0.14 | 0.08 | 0.03 |
-| 2         | 0.08 | 0.10 | 0.06 | 0.02 |
-
-This visualization is widely used in **football analytics and betting models**.
-
----
-
-# 📈 Interactive Dashboard
-
-The project includes a dashboard built using
-Streamlit.
-
-The dashboard allows users to:
-
-* Select two teams
-* Generate match predictions
-* Visualize probabilities
-* Explore team statistics
-
-### Dashboard Features
-
-✔ Match outcome prediction
-✔ Win probability visualization
-✔ Expected goals comparison
-✔ Monte Carlo score simulation
-✔ Poisson score probability heatmap
-✔ Team form analysis (last 5 matches)
-✔ Head-to-head match history
-✔ Football themed UI with team logos
-
----
-
-# 🗂 Project Structure
-
-```
-FTBALL/
-│
-├── app.py
-│   Streamlit dashboard application
-│
-├── data_collection.py
-│   Collects match data from football API
-│
-├── feature_engineering.py
-│   Creates team performance features
-│
-├── preprocessing.py
-│   Data cleaning and dataset preparation
-│
-├── train_model.py
-│   Machine learning model training
-│
-├── football_model.pkl
-│   Trained prediction model
-│
-├── matches_2014_2025.csv
-│   Historical match dataset
-│
-├── requirements.txt
-│   Python dependencies
-│
-├── assets/
-│   Dashboard images and UI assets
-│
-└── logos/
-    Premier League team logos
-```
-
----
-
-# ⚙️ Installation
-
-Clone the repository:
-
-```
-git clone https://github.com/sayandp/football-match-predictor.git
-```
-
-Navigate to the project folder:
-
-```
-cd football-match-predictor
-```
-
-Install dependencies:
+### 1️⃣ Install dependencies
 
 ```
 pip install -r requirements.txt
@@ -267,15 +205,15 @@ pip install -r requirements.txt
 
 ---
 
-# ▶️ Run the Dashboard
-
-Start the Streamlit application:
+### 2️⃣ Run the Streamlit app
 
 ```
 streamlit run app.py
 ```
 
-Open in your browser:
+---
+
+### 3️⃣ Open the dashboard
 
 ```
 http://localhost:8501
@@ -283,31 +221,27 @@ http://localhost:8501
 
 ---
 
-# 🚀 Future Improvements
+# 📈 Example Dashboard Output
 
-Possible improvements for the project:
+The dashboard displays:
 
-* Elo rating based team strength model
-* Player level statistics integration
-* Expected Goals (xG) dataset
-* Live match predictions using API
-* Hyperparameter tuning for ML model
-* Model evaluation across seasons
+• Match prediction
+• Win probability bars
+• Expected goals comparison
+• Scoreline probability heatmap
+• Monte Carlo simulation results
 
 ---
 
-# 🎯 Skills Demonstrated
+# 🎯 Future Improvements
 
-This project demonstrates several data science skills:
+Possible enhancements:
 
-* API data collection
-* Data cleaning and preprocessing
-* Feature engineering
-* Machine learning modeling
-* Statistical modeling
-* Monte Carlo simulation
-* Data visualization
-* Interactive dashboard development
+• ELO rating system for teams
+• Player-level statistics
+• Expected Goals (xG) model
+• Live match predictions
+• League table integration
 
 ---
 
@@ -316,3 +250,9 @@ This project demonstrates several data science skills:
 **Sayand P**
 
 Data Science / Sports Analytics Project
+
+---
+
+# ⭐ If you like the project
+
+Consider giving the repository a star.
